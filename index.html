@@ -395,10 +395,9 @@
     <h2>Tell me your problems. I'll propose solutions.</h2>
     <p>The first conversation is free and pressure-free: you describe how your business runs today, and I'll come back with what I'd automate, what I'd leave alone, and what it would take. If it's not a fit, you'll still leave with a clearer map.</p>
 
-    <form name="contact" method="POST" data-netlify="true" netlify-honeypot="company" class="contact-form" id="contact-form">
-      <input type="hidden" name="form-name" value="contact">
+    <form class="contact-form" id="contact-form">
       <p style="position:absolute;left:-9999px;" aria-hidden="true">
-        <label>Don't fill this out if you're human: <input name="company" tabindex="-1" autocomplete="off"></label>
+        <label>Don't fill this out if you're human: <input name="_gotcha" tabindex="-1" autocomplete="off"></label>
       </p>
 
       <div class="f-row">
@@ -413,8 +412,8 @@
         <label for="f-message">What's going on in your business?</label>
         <textarea id="f-message" name="message" rows="4" required></textarea>
       </div>
-      <button type="submit" class="cta">SEND TRANSMISSION</button>
-      <p id="form-status" class="mono" style="margin-top:16px;font-size:.8rem;letter-spacing:.05em;display:none;"></p>
+      <button type="submit" class="cta" id="form-submit">SEND TRANSMISSION</button>
+      <p id="form-status" class="mono" style="margin-top:18px;font-size:.82rem;letter-spacing:.05em;display:none;"></p>
     </form>
   </div>
 </section>
@@ -438,15 +437,49 @@
   }
   .f-row input::placeholder,.f-row textarea::placeholder{color:rgba(233,205,170,.4)}
   .contact-form button{border:none;cursor:pointer;font-size:.82rem}
+  .contact-form button:disabled{opacity:.5;cursor:default}
 </style>
 
 <script>
-  document.getElementById('contact-form').addEventListener('submit', function(e){
-    // Let Netlify's native form handling process this (no JS fetch needed
-    // when data-netlify="true" and the form posts normally). This handler
-    // only manages the on-page status message after Netlify redirects back
-    // if you later wire up a success page. Left minimal on purpose.
-  });
+  (function(){
+    var FORMSPREE_ENDPOINT = "https://formspree.io/f/xgojjaln";
+
+    var form = document.getElementById('contact-form');
+    var status = document.getElementById('form-status');
+    var button = document.getElementById('form-submit');
+
+    function show(msg, ok){
+      status.textContent = msg;
+      status.style.color = ok ? '#EFCBB2' : '#F2A08E';
+      status.style.display = 'block';
+    }
+
+    form.addEventListener('submit', async function(e){
+      e.preventDefault();
+      button.disabled = true;
+      button.textContent = 'SENDING…';
+      try {
+        var res = await fetch(FORMSPREE_ENDPOINT, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        });
+        if (res.ok) {
+          form.reset();
+          show('Transmission received. I\u2019ll be in touch shortly.', true);
+          button.textContent = 'SENT';
+        } else {
+          show('Something went wrong. Email me directly instead.', false);
+          button.disabled = false;
+          button.textContent = 'SEND TRANSMISSION';
+        }
+      } catch (err) {
+        show('Something went wrong. Check your connection and try again.', false);
+        button.disabled = false;
+        button.textContent = 'SEND TRANSMISSION';
+      }
+    });
+  })();
 </script>
 
 <footer>
