@@ -1,0 +1,347 @@
+/* ==========================================================================
+   RedSand — styles.css
+   Palette: Martian sunset — indigo sky through mauve and coral to red sand.
+   Fonts:   Unbounded (display) · Instrument Sans (body) · Space Mono (labels)
+   ========================================================================== */
+
+/* ---------- Design tokens ---------- */
+:root{
+  --sky-top:#181530;
+  --sky-mid:#46284E;
+  --dusk:#8E4363;
+  --rust:#C4504F;
+  --rust-dark:#A93F42;
+  --ember:#F2A08E;
+  --sand:#E8AE92;
+  --sand-deep:#CE7B5E;
+  --cream:#FAF0E7;
+  --ink:#2B1B12;
+  --ink-soft:#5C4433;
+  --silhouette:#33182E;
+  --maxw:1080px;
+}
+
+/* ---------- Reset & base ---------- */
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Instrument Sans',system-ui,sans-serif;
+  color:var(--ink);
+  background:var(--cream);
+  line-height:1.6;
+  font-size:17px;
+}
+::selection{background:var(--rust);color:var(--cream)}
+.mono{font-family:'Space Mono',monospace}
+a:focus-visible{outline:2px solid var(--ember);outline-offset:3px}
+
+/* ---------- Nav ---------- */
+.site-nav{
+  position:absolute;top:0;left:0;right:0;z-index:10;
+  display:flex;justify-content:space-between;align-items:center;
+  max-width:var(--maxw);margin:0 auto;
+  padding:28px 24px;
+}
+.wordmark{
+  font-family:'Unbounded',sans-serif;
+  font-weight:600;font-size:1.05rem;letter-spacing:.12em;
+  color:var(--cream);text-decoration:none;
+}
+.wordmark span{color:var(--ember)}
+.navlink{
+  font-family:'Space Mono',monospace;font-size:.78rem;letter-spacing:.14em;
+  color:var(--sand);text-decoration:none;
+  border:1px solid rgba(233,205,170,.4);
+  padding:9px 18px;border-radius:2px;
+  transition:background .25s,color .25s,border-color .25s;
+}
+.navlink:hover,.navlink:focus-visible{
+  background:var(--rust);border-color:var(--rust);color:var(--cream);
+}
+
+/* ---------- Hero: Martian beach at dusk ---------- */
+.hero{
+  position:relative;
+  min-height:100svh;
+  display:flex;flex-direction:column;justify-content:center;
+  overflow:hidden;
+  background:linear-gradient(180deg,
+    var(--sky-top) 0%,
+    var(--sky-mid) 34%,
+    var(--dusk) 58%,
+    var(--rust) 76%,
+    var(--ember) 88%,
+    var(--sand-deep) 100%);
+}
+
+/* stars */
+.stars{position:absolute;inset:0;pointer-events:none}
+.stars i{
+  position:absolute;width:2px;height:2px;border-radius:50%;
+  background:var(--cream);opacity:.7;
+  animation:twinkle 4s ease-in-out infinite;
+}
+@keyframes twinkle{0%,100%{opacity:.25}50%{opacity:.85}}
+@media (prefers-reduced-motion:reduce){
+  .stars i{animation:none;opacity:.5}
+  html{scroll-behavior:auto}
+}
+
+/* moons: Phobos & Deimos */
+.moon{position:absolute;border-radius:50%;pointer-events:none}
+.moon.phobos{
+  width:54px;height:54px;top:16%;right:14%;
+  background:radial-gradient(circle at 35% 35%,#E8D4C0,#9A7B66 70%,#6B5142);
+  box-shadow:0 0 40px rgba(232,212,192,.25);
+}
+.moon.deimos{
+  width:22px;height:22px;top:9%;right:34%;
+  background:radial-gradient(circle at 40% 40%,#D8C2AE,#8A6E5C 75%);
+  opacity:.85;
+}
+
+/* calm mauve sea */
+.sea{
+  position:absolute;left:0;right:0;bottom:0;height:34%;
+  background:linear-gradient(180deg,
+    rgba(142,67,99,0) 0%,
+    #63305A 8%,
+    #8E4363 42%,
+    #C06A6A 100%);
+  z-index:2;pointer-events:none;
+}
+.sea::after{
+  content:"";position:absolute;inset:0;
+  background:repeating-linear-gradient(180deg,
+    rgba(250,240,231,.06) 0 1px,
+    rgba(250,240,231,0) 1px 10px);
+  opacity:.7;
+}
+
+/* red sand dunes (shoreline) */
+.dunes{
+  position:absolute;left:0;right:0;bottom:-2px;
+  display:block;width:100%;
+  z-index:4;pointer-events:none;
+}
+
+/* palm + surfboard silhouette */
+.palm{
+  position:absolute;right:3%;bottom:-6px;
+  width:min(320px,38vw);height:auto;
+  z-index:5;pointer-events:none;
+}
+@media (max-width:820px){
+  .palm{width:190px;right:0}
+}
+
+/* hero content */
+.hero-inner{
+  position:relative;z-index:5;
+  max-width:var(--maxw);margin:0 auto;width:100%;
+  padding:120px 24px 220px;
+}
+.telemetry{
+  font-family:'Space Mono',monospace;
+  font-size:.74rem;letter-spacing:.22em;
+  color:var(--sand);opacity:.85;
+  margin-bottom:26px;
+}
+h1{
+  font-family:'Unbounded',sans-serif;
+  font-weight:300;
+  font-size:clamp(2.1rem,5.4vw,4rem);
+  line-height:1.14;
+  color:var(--cream);
+  max-width:20ch;
+  margin-bottom:26px;
+}
+h1 b{font-weight:600;color:var(--ember)}
+.hero-inner > p{
+  color:var(--sand);max-width:52ch;font-size:1.06rem;
+  margin-bottom:38px;
+}
+
+/* buttons */
+.cta{
+  display:inline-block;
+  font-family:'Space Mono',monospace;font-size:.82rem;letter-spacing:.16em;
+  background:var(--rust);color:var(--cream);text-decoration:none;
+  padding:15px 30px;border-radius:2px;
+  border:1px solid var(--rust);
+  transition:background .25s,transform .2s;
+}
+.cta:hover,.cta:focus-visible{background:var(--rust-dark);transform:translateY(-2px)}
+.cta.ghost{
+  background:transparent;color:var(--sand);
+  border-color:rgba(233,205,170,.45);margin-left:12px;
+}
+.cta.ghost:hover,.cta.ghost:focus-visible{background:rgba(233,205,170,.12)}
+
+/* ---------- Shared section chrome ---------- */
+section{padding:96px 24px}
+.wrap{max-width:var(--maxw);margin:0 auto}
+.eyebrow{
+  font-family:'Space Mono',monospace;
+  font-size:.74rem;letter-spacing:.24em;
+  color:var(--rust);
+  display:flex;align-items:center;gap:14px;
+  margin-bottom:20px;text-transform:uppercase;
+}
+.eyebrow::after{content:"";height:1px;flex:1;max-width:90px;background:var(--rust);opacity:.5}
+h2{
+  font-family:'Unbounded',sans-serif;font-weight:400;
+  font-size:clamp(1.5rem,3.2vw,2.2rem);line-height:1.25;
+  margin-bottom:22px;max-width:22ch;
+}
+
+/* ---------- Services ---------- */
+.services{background:var(--cream)}
+.svc-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:2px;
+  background:rgba(43,27,18,.14);
+  border:1px solid rgba(43,27,18,.14);
+  margin-top:44px;
+}
+.svc{
+  background:var(--cream);
+  padding:34px 28px 38px;
+  transition:background .3s;
+}
+.svc:hover{background:#F6E0D3}
+.svc .code{
+  font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:.2em;
+  color:var(--rust);display:block;margin-bottom:16px;
+}
+.svc h3{
+  font-family:'Unbounded',sans-serif;font-weight:400;
+  font-size:1.02rem;line-height:1.35;margin-bottom:12px;
+}
+.svc p{font-size:.95rem;color:var(--ink-soft)}
+
+/* "don't see your problem" cell */
+.svc-note{
+  display:flex;flex-direction:column;justify-content:center;
+  background:#F6E0D3;
+}
+.svc-note-label{
+  font-family:'Space Mono',monospace;font-size:.78rem;
+  letter-spacing:.14em;color:var(--rust);
+}
+.svc-note p + p{margin-top:10px}
+.svc-note a{color:var(--rust);font-weight:600}
+
+/* ---------- Philosophy band ---------- */
+.philosophy{
+  background:linear-gradient(135deg,var(--rust) 0%,var(--rust-dark) 55%,var(--dusk) 100%);
+  padding:84px 24px;
+}
+.philosophy .wrap{text-align:center;max-width:760px}
+.philosophy-label{
+  font-family:'Space Mono',monospace;
+  font-size:.72rem;letter-spacing:.26em;
+  color:rgba(250,240,231,.75);
+  margin-bottom:22px;
+}
+.philosophy-quote{
+  font-family:'Unbounded',sans-serif;font-weight:300;
+  font-size:clamp(1.2rem,2.6vw,1.7rem);line-height:1.5;
+  color:var(--cream);
+}
+
+/* ---------- Case studies ---------- */
+.cases{background:var(--cream)}
+.case-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+  gap:28px;
+  margin-top:44px;
+}
+.case{
+  border-left:2px solid var(--rust);
+  padding:6px 0 6px 26px;
+}
+.case-tag{
+  font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:.2em;
+  color:var(--rust);margin-bottom:14px;
+}
+.case h3{
+  font-family:'Unbounded',sans-serif;font-weight:400;
+  font-size:1.02rem;line-height:1.35;margin-bottom:10px;
+}
+.case p:last-child{font-size:.95rem;color:var(--ink-soft)}
+
+/* ---------- About ---------- */
+.about{
+  background:linear-gradient(180deg,var(--sand) 0%,var(--sand-deep) 100%);
+}
+.about-grid{
+  display:grid;grid-template-columns:1.1fr .9fr;gap:64px;align-items:start;
+}
+.about p{margin-bottom:18px;max-width:58ch}
+.about p.lede{font-size:1.15rem;font-weight:500}
+.cred{
+  border-left:2px solid var(--rust);
+  padding-left:26px;
+  display:flex;flex-direction:column;gap:22px;
+}
+.cred .k{
+  font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:.2em;
+  color:var(--rust);text-transform:uppercase;display:block;margin-bottom:4px;
+}
+.cred .v{font-weight:500}
+@media (max-width:820px){
+  .about-grid{grid-template-columns:1fr;gap:44px}
+}
+
+/* ---------- Contact ---------- */
+.contact{
+  background:linear-gradient(180deg,var(--sky-top) 0%,var(--sky-mid) 100%);
+  color:var(--sand);
+  position:relative;overflow:hidden;
+}
+.contact .eyebrow{color:var(--ember)}
+.contact .eyebrow::after{background:var(--ember)}
+.contact h2{color:var(--cream)}
+.contact .wrap > p{max-width:54ch;margin-bottom:34px}
+.contact .wrap{position:relative;z-index:2}
+
+/* contact form */
+.contact-form{max-width:520px;margin-top:10px}
+.hp{position:absolute;left:-9999px}
+.f-row{margin-bottom:20px;display:flex;flex-direction:column;gap:8px}
+.f-row label{
+  font-family:'Space Mono',monospace;font-size:.72rem;letter-spacing:.16em;
+  color:var(--ember);text-transform:uppercase;
+}
+.f-row input,.f-row textarea{
+  font-family:'Instrument Sans',sans-serif;font-size:1rem;
+  background:rgba(250,240,231,.06);
+  border:1px solid rgba(233,205,170,.35);
+  border-radius:2px;color:var(--cream);
+  padding:12px 14px;resize:vertical;
+}
+.f-row input:focus,.f-row textarea:focus{
+  outline:none;border-color:var(--ember);background:rgba(250,240,231,.1);
+}
+.contact-form button{border:none;cursor:pointer;font-size:.82rem}
+.contact-form button:disabled{opacity:.5;cursor:default}
+.form-status{
+  display:none;
+  margin-top:18px;font-size:.82rem;letter-spacing:.05em;
+}
+.form-status.ok{display:block;color:#EFCBB2}
+.form-status.error{display:block;color:var(--ember)}
+
+/* ---------- Footer ---------- */
+footer{
+  background:var(--sky-top);
+  color:rgba(233,205,170,.55);
+  padding:26px 24px 34px;
+}
+footer .wrap{
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  font-family:'Space Mono',monospace;font-size:.72rem;letter-spacing:.14em;
+}
